@@ -1,0 +1,22 @@
+{
+  "name": "p-robot",
+  "version": "1.0.0",
+  "description": "procedural art presentation P-Robot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DJoser/p-robot.git"
+  },
+  "author": "Jose Ramon Navarro Marquez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DJoser/p-robot/issues"
+  },
+  "homepage": "https://github.com/DJoser/p-robot#readme",
+  "dependencies": {
+    "three": "^0.86.0"
+  }
+}
