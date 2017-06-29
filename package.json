@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/DJoser/p-robot/issues"
   },
-  "homepage": "https://github.com/DJoser/p-robot#readme"
+  "homepage": "https://github.com/DJoser/p-robot#readme",
+  "dependencies": {
+    "three": "^0.86.0"
+  }
 }
