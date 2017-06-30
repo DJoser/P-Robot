@@ -1,0 +1,14 @@
+Ejecutar:
+
+- Instalar chrome
+- Instalar node js 6.x
+- Instalar Git Kraken
+- Iniciar repo ejecutando install.bat
+- Inicar el servidor ejecutando start.bat
+- abrir en un explorador "localhost" sin comillas
+
+Desarrollar:
+
+Instalar Sublime Text
+Instalar plugin Live Reload
+Instalar extension Live Reload Chrome
