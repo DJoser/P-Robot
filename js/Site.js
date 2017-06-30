@@ -159,12 +159,12 @@ AudioVisualizer.prototype.setupAudioProcessing = function () {
 //get the default audio from the server
 AudioVisualizer.prototype.getAudio = function () {
     var request = new XMLHttpRequest();
-    request.open("GET", "Asset/Aathi-StarMusiQ.Com.mp3", true);
+    request.open("GET", "assets/HOME - Dream Head.mp3", true);
     request.responseType = "arraybuffer";
     request.send();
     var that = this;
     request.onload = function () {
-        //that.start(request.response);
+        that.start(request.response);
     }
 };
 
