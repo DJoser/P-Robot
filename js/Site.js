@@ -3,18 +3,6 @@ Audio Visualizer by Raathigeshan.
 http://raathigesh.com/
 */
 
-var visualizer;
-
-$(document).ready(function () {
-    visualizer = new AudioVisualizer();
-    visualizer.initialize();
-    visualizer.createBars();
-    visualizer.setupAudioProcessing();
-    visualizer.getAudio();
-    visualizer.handleDrop();  
-});
-
-
 function AudioVisualizer() {
     //constants
     this.numberOfBars = 60;
@@ -143,6 +131,7 @@ AudioVisualizer.prototype.setupAudioProcessing = function () {
         //render the scene and update controls
         visualizer.renderer.render(visualizer.scene, visualizer.camera);
         visualizer.controls.update();
+        TWEEN.update();
 
         var step = Math.round(array.length / visualizer.numberOfBars);
 

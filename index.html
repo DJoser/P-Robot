@@ -6,6 +6,7 @@
 	<script src="js/jquery-2.1.1.js"></script>
     <script src="node_modules/three/build/three.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="node_modules/@tweenjs/tween.js/src/Tween.js"></script>
     <script src="js/Site.js"></script>
 	<style>
 		body 
@@ -17,6 +18,27 @@
 	</style>
 </head>
 <body>
-	<!---->
+<script type="text/javascript">
+	var visualizer;
+
+   	$(document).ready(function () {
+    	visualizer = new AudioVisualizer();
+        visualizer.initialize();
+        visualizer.createBars();
+        visualizer.setupAudioProcessing();
+        visualizer.getAudio();
+        visualizer.handleDrop();
+
+        // Transitions
+        var position = { x : 0, y: 0, z : 0 };
+        var target = { x : 0, y: 100, z : 0 };
+        var tween = new TWEEN.Tween(position).to(target, 30000);
+        tween.onUpdate(function(){
+            visualizer.camera.position.x = position.x;
+            visualizer.camera.position.y = position.y;
+        });
+        tween.start();
+    });
+	</script>
 </body>
 </html>
