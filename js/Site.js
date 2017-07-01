@@ -17,8 +17,8 @@ function AudioVisualizer() {
     this.bars = new Array();
 
     //audio
-    this.javascriptNode;
     this.audioContext;
+    this.javascriptNode;
     this.sourceBuffer;
     this.analyser;
 }
@@ -69,6 +69,20 @@ AudioVisualizer.prototype.initialize = function () {
 
     //Add interation capability to the scene
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+
+
+    // Helpers para ayudar a diseñar la escena
+    var axisHelper = new THREE.AxisHelper( 5 );
+    this.scene.add( axisHelper );
+
+    var size = 100;
+    var divisions = 100;
+
+    var gridHelper = new THREE.GridHelper( size, divisions );
+    this.scene.add( gridHelper );
+
+    //var helper = new THREE.CameraHelper( this.camera );
+    //this.scene.add( helper );
 };
 
 //create the bars required to show the visualization
