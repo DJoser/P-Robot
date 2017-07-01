@@ -23,6 +23,8 @@ function AudioVisualizer() {
     this.analyser;
 }
 
+
+
 //initialize the visualizer elements
 AudioVisualizer.prototype.initialize = function () {
     //generate a ThreeJS Scene
@@ -83,6 +85,24 @@ AudioVisualizer.prototype.initialize = function () {
 
     //var helper = new THREE.CameraHelper( this.camera );
     //this.scene.add( helper );
+
+    // instantiate a loader
+    var loader = new THREE.ColladaLoader();
+
+    loader.load(
+        // resource URL
+        'assets/models/skeleton/skelet.dae',
+        // Function when resource is loaded
+        function ( collada ) {
+            console.log(collada.scene);
+
+            this.scene.add( collada.scene );
+        }.bind(this),
+        // Function called when download progresses
+        function ( xhr ) {
+            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+        }
+    );
 };
 
 //create the bars required to show the visualization
