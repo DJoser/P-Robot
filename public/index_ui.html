@@ -45,18 +45,40 @@
         });
         tween.start();
 
-
-        fetch('/api/text-to-speech/token')
+        fetch('api/speech-to-text/token')
             .then(function (response) {
                 return response.text();
             }).then(function (token) {
-                WatsonSpeech.TextToSpeech.synthesize({
-                    text: 'Que ondas perros, soy watson',
-                    voice: 'es-ES_EnriqueVoice',
-                    autoPlay: true,
-                    token: token
+            var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                token: token,
+                object_mode: false,
+                model: 'es-ES_BroadbandModel'
+            });
+            stream.setEncoding('utf8');
+
+            result = "";
+            stream.on('data', function (data) {
+                stream.stop();
+                result = data;
+                console.log(data);
+
+                fetch('/api/text-to-speech/token')
+                    .then(function (response) {
+                        return response.text();
+                    }).then(function (token) {
+                    WatsonSpeech.TextToSpeech.synthesize({
+                        text: data,
+                        voice: 'es-ES_EnriqueVoice',
+                        autoPlay: true,
+                        token: token
+                    });
                 });
             });
+
+            stream.on('error', function (err) {
+                console.log(err);
+            });
+        });
     });
 </script>
 </body>
