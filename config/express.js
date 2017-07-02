@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 IBM Corp. All Rights Reserved.
+ * Copyright 2016 IBM Corp. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-'use strict';
 
+// Module dependencies
 const express = require('express');
-const app = express();
+const compression = require('compression');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-app.use(express.static('./public')); // load UI from public folder
 
-// Bootstrap application settings
-require('./config/express')(app);
+module.exports = function (app) {
+  app.enable('trust proxy');
+  app.use(require('express-status-monitor')());
 
-// Configure the Watson services
-require('./routes/conversation')(app);
-require('./routes/speech-to-text')(app);
-require('./routes/text-to-speech')(app);
+  // Only loaded when running in Bluemix
+  if (process.env.VCAP_APPLICATION) {
+    require('./security')(app);
+  }
 
-// error-handler settings
-require('./config/error-handler')(app);
-
-module.exports = app;
+  app.use(compression());
+  app.use(bodyParser.json({ limit: '1mb' }));
+  app.use(express.static(path.join(__dirname, '..', 'dist')));
+};
