@@ -3,18 +3,6 @@ Audio Visualizer by Raathigeshan.
 http://raathigesh.com/
 */
 
-var visualizer;
-
-$(document).ready(function () {
-    visualizer = new AudioVisualizer();
-    visualizer.initialize();
-    visualizer.createBars();
-    visualizer.setupAudioProcessing();
-    visualizer.getAudio();
-    visualizer.handleDrop();  
-});
-
-
 function AudioVisualizer() {
     //constants
     this.numberOfBars = 60;
@@ -29,11 +17,13 @@ function AudioVisualizer() {
     this.bars = new Array();
 
     //audio
-    this.javascriptNode;
     this.audioContext;
+    this.javascriptNode;
     this.sourceBuffer;
     this.analyser;
 }
+
+
 
 //initialize the visualizer elements
 AudioVisualizer.prototype.initialize = function () {
@@ -81,6 +71,38 @@ AudioVisualizer.prototype.initialize = function () {
 
     //Add interation capability to the scene
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+
+
+    // Helpers para ayudar a diseñar la escena
+    var axisHelper = new THREE.AxisHelper( 5 );
+    this.scene.add( axisHelper );
+
+    var size = 100;
+    var divisions = 100;
+
+    var gridHelper = new THREE.GridHelper( size, divisions );
+    this.scene.add( gridHelper );
+
+    //var helper = new THREE.CameraHelper( this.camera );
+    //this.scene.add( helper );
+
+    // instantiate a loader
+    var loader = new THREE.ColladaLoader();
+
+    loader.load(
+        // resource URL
+        'assets/models/skeleton/skelet.dae',
+        // Function when resource is loaded
+        function ( collada ) {
+            console.log(collada.scene);
+
+            this.scene.add( collada.scene );
+        }.bind(this),
+        // Function called when download progresses
+        function ( xhr ) {
+            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+        }
+    );
 };
 
 //create the bars required to show the visualization
@@ -143,6 +165,7 @@ AudioVisualizer.prototype.setupAudioProcessing = function () {
         //render the scene and update controls
         visualizer.renderer.render(visualizer.scene, visualizer.camera);
         visualizer.controls.update();
+        TWEEN.update();
 
         var step = Math.round(array.length / visualizer.numberOfBars);
 
@@ -159,12 +182,12 @@ AudioVisualizer.prototype.setupAudioProcessing = function () {
 //get the default audio from the server
 AudioVisualizer.prototype.getAudio = function () {
     var request = new XMLHttpRequest();
-    request.open("GET", "Asset/Aathi-StarMusiQ.Com.mp3", true);
+    request.open("GET", "assets/HOME - Dream Head.mp3", true);
     request.responseType = "arraybuffer";
     request.send();
     var that = this;
     request.onload = function () {
-        //that.start(request.response);
+        that.start(request.response);
     }
 };
 
