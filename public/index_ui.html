@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>P-Robot Demo</title>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/three/build/three.js"></script>
+    <script src="js/three/examples/js/loaders/ColladaLoader.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/@tweenjs/tween.js/src/Tween.js"></script>
+    <script src="js/watson-speech/dist/watson-speech.js"></script>
+    <script src="js/Site.js"></script>
+    <script src="js/whatwg-fetch/fetch.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    var visualizer;
+
+    $(document).ready(function () {
+        visualizer = new AudioVisualizer();
+        visualizer.initialize();
+        visualizer.createBars();
+        visualizer.setupAudioProcessing();
+        visualizer.getAudio();
+        visualizer.handleDrop();
+
+        // Transitions
+        var position = {x: 0, y: 0, z: 0};
+        var target = {x: 0, y: 100, z: 0};
+        var tween = new TWEEN.Tween(position).to(target, 30000);
+        tween.onUpdate(function () {
+            visualizer.camera.position.x = position.x;
+            visualizer.camera.position.y = position.y;
+        });
+        tween.start();
+
+        fetch('api/speech-to-text/token')
+            .then(function (response) {
+                return response.text();
+            }).then(function (token) {
+            var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                token: token,
+                object_mode: false,
+                model: 'es-ES_BroadbandModel'
+            });
+            stream.setEncoding('utf8');
+
+            result = "";
+            stream.on('data', function (data) {
+                stream.stop();
+                result = data;
+                console.log(data);
+
+                fetch('/api/text-to-speech/token')
+                    .then(function (response) {
+                        return response.text();
+                    }).then(function (token) {
+                    WatsonSpeech.TextToSpeech.synthesize({
+                        text: data,
+                        voice: 'es-ES_EnriqueVoice',
+                        autoPlay: true,
+                        token: token
+                    });
+                });
+            });
+
+            stream.on('error', function (err) {
+                console.log(err);
+            });
+        });
+    });
+</script>
+</body>
+</html>

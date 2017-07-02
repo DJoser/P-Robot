@@ -94,8 +94,6 @@ AudioVisualizer.prototype.initialize = function () {
         'assets/models/skeleton/skelet.dae',
         // Function when resource is loaded
         function ( collada ) {
-            console.log(collada.scene);
-
             this.scene.add( collada.scene );
         }.bind(this),
         // Function called when download progresses
