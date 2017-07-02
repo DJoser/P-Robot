@@ -20,6 +20,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.static('./public')); // load UI from public folder
+app.use('/js',express.static('./node_modules'));
 
 // Bootstrap application settings
 require('./config/express')(app);
