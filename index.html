@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset=utf-8>
-	<title>P-Robot Demo</title>
-	<script src="js/jquery-2.1.1.js"></script>
+    <meta charset=utf-8>
+    <title>P-Robot Demo</title>
+    <script src="js/jquery-2.1.1.js"></script>
     <script src="node_modules/three/build/three.js"></script>
-	<script src="node_modules/three/examples/js/loaders/ColladaLoader.js"></script>
+    <script src="node_modules/three/examples/js/loaders/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="node_modules/@tweenjs/tween.js/src/Tween.js"></script>
-	<script src="node_modules/watson-speech/dist/watson-speech.js"></script>
+    <script src="node_modules/watson-speech/dist/watson-speech.js"></script>
     <script src="js/Site.js"></script>
-	<style>
-		body 
-		{ 
-			margin: 0; 
-			overflow: hidden;
-		}
-		canvas { width: 100%; height: 100% }
-	</style>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
 </head>
 <body>
 <script type="text/javascript">
-	var visualizer;
+    var visualizer;
 
-   	$(document).ready(function () {
-    	visualizer = new AudioVisualizer();
+    $(document).ready(function () {
+        visualizer = new AudioVisualizer();
         visualizer.initialize();
         visualizer.createBars();
         visualizer.setupAudioProcessing();
@@ -32,23 +35,81 @@
         visualizer.handleDrop();
 
         // Transitions
-        var position = { x : 0, y: 0, z : 0 };
-        var target = { x : 0, y: 100, z : 0 };
+        var position = {x: 0, y: 0, z: 0};
+        var target = {x: 0, y: 100, z: 0};
         var tween = new TWEEN.Tween(position).to(target, 30000);
-        tween.onUpdate(function(){
+        tween.onUpdate(function () {
             visualizer.camera.position.x = position.x;
             visualizer.camera.position.y = position.y;
         });
         tween.start();
 
-        WatsonSpeech.TextToSpeech.synthesize({
-            text : 'Hola desde IBM',
-            voice: 'es-ES_EnriqueVoice',
-            autoPlay : false,
-            token: 'YfbgB%2FJ7RScRYTKLIiIcXPec9842hkV84VqC3Ol7YlyNN9JJgmBi9nRSNfrIiLoYgIizS0w3YFo5a8p9OSshdqKfl%2BfCkMfTCu748Yfl%2B6ttujH8AlzNkgS5BiXJYpsGadjQZcrtdBcPtfAmxnkT7zUehEwGE%2FUtT%2BQXefI4MowV%2Fg21MYCgMlleVfFyeI0J3h52SJwyRw9PNd1lMYLJCFMd2hdFUmGdf3lgg0qANZ9c4vM7C1b2O3zWBcRfoBM%2F5gDuFd5GIdgqXOhed252P58iAtpAJiasFHfhusVt7qDAYsgfv9OW6JIcXwU6ZLC03AjRda28rrBho8MoeO%2BBsHD3BWHlOy%2FJWkBkYnNOhwoyH8%2FuPl8FVpf5m9bHXziCBmklcYGa6SAr8XL8%2FNpIp6E%2BOZGVW9EIGTK9mOd7bqTmI3Ob7TndCp%2Fy4JCcZrTCiBwQwFwtwnW%2B4eIi2CJGPsH1%2BZat7ewGl4qdDIOz%2Bspp1Yx2Y5M1hffJPtCAWGxJddb34ND1D6kUZbeuLHkLrp0TOKal7mIyV7huzVkFPCNnw3ZQXJTK9Hl2kTUCIMs94ShjvxVxXQ3e4XFRL63pGZjspamuG%2FX5CIDjpXKO6gOJSrnrzmBxv5c0eGA5YlSbouIYUkJOGAmejsfcL3Y40PZmbI9%2Bzu0z6JroVKmnhjafai5kvdh%2F3tqOBBO26g0JU4l3bwrGmV5YxYc%2B7uVKNt2jH4jiRo9XcaR6yLiDPIpZ6EpA%2BZniNqg9oaBQEQckQXNwMYVn8Oz8HYHUqo6wsERW3BGgB%2Brnhs8BsgIKYWAlF0lhEsvLtzLMogAQt9B6nRrOYYRfnXqXisukEoFmVeV4fNDoscfBHfvUx5JmeNVYS05eKAekY5NRgegY2%2Fu0Xefwy28WC7gvqf4vk59jROqP1l%2B1uNrYSkfRhsG06jyxAaeZWyaRNEfTd%2FHPD%2Bta'
+
+        /*{ voz texto
+            "url": "https://stream.watsonplatform.net/speech-to-text/api",
+            "username": "fa35ebed-f5d2-486d-a1c7-c53bafbe9158",
+            "password": "FeIzLaf0vrLD"
+        }*/
+
+
+
+        /*var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+            token: getToken(),
+            object_mode: false,
+            model: 'es-ES_BroadbandModel'
+        });
+
+        stream.setEncoding('utf8');
+
+        stream.on('data', function (data) {
+            stream.stop();
+            console.log(data);
+            WatsonSpeech.TextToSpeech.synthesize({
+                text: data,
+                voice: 'es-ES_EnriqueVoice',
+                autoPlay: false,
+                token: 'YfbgB%2FJ7RScRYTKLIiIcXPec9842hkV84VqC3Ol7YlyNN9JJgmBi9nRSNfrIiLoYgIizS0w3YFo5a8p9OSshdqKfl%2BfCkMfTCu748Yfl%2B6ttujH8AlzNkgS5BiXJYpsGadjQZcrtdBcPtfAmxnkT7zUehEwGE%2FUtT%2BQXefI4MowV%2Fg21MYCgMlleVfFyeI0J3h52SJwyRw9PNd1lMYLJCFMd2hdFUmGdf3lgg0qANZ9c4vM7C1b2O3zWBcRfoBM%2F5gDuFd5GIdgqXOhed252P58iAtpAJiasFHfhusVt7qDAYsgfv9OW6JIcXwU6ZLC03AjRda28rrBho8MoeO%2BBsHD3BWHlOy%2FJWkBkYnNOhwoyH8%2FuPl8FVpf5m9bHXziCBmklcYGa6SAr8XL8%2FNpIp6E%2BOZGVW9EIGTK9mOd7bqTmI3Ob7TndCp%2Fy4JCcZrTCiBwQwFwtwnW%2B4eIi2CJGPsH1%2BZat7ewGl4qdDIOz%2Bspp1Yx2Y5M1hffJPtCAWGxJddb34ND1D6kUZbeuLHkLrp0TOKal7mIyV7huzVkFPCNnw3ZQXJTK9Hl2kTUCIMs94ShjvxVxXQ3e4XFRL63pGZjspamuG%2FX5CIDjpXKO6gOJSrnrzmBxv5c0eGA5YlSbouIYUkJOGAmejsfcL3Y40PZmbI9%2Bzu0z6JroVKmnhjafai5kvdh%2F3tqOBBO26g0JU4l3bwrGmV5YxYc%2B7uVKNt2jH4jiRo9XcaR6yLiDPIpZ6EpA%2BZniNqg9oaBQEQckQXNwMYVn8Oz8HYHUqo6wsERW3BGgB%2Brnhs8BsgIKYWAlF0lhEsvLtzLMogAQt9B6nRrOYYRfnXqXisukEoFmVeV4fNDoscfBHfvUx5JmeNVYS05eKAekY5NRgegY2%2Fu0Xefwy28WC7gvqf4vk59jROqP1l%2B1uNrYSkfRhsG06jyxAaeZWyaRNEfTd%2FHPD%2Bta'
+            });
+        });
+
+        stream.on('error', function (err) {
+            console.log(err);
+        });*/
+
+        /*getToken = function(options) {
+            $.ajax
+            ({
+                type: "GET",
+                url: 'https://stream.watsonplatform.net/authorization/api/v1/token?url=' + options.url,
+                //dataType: 'json',
+                async: true,
+                headers: {
+                    "Authorization": "Basic " + btoa(options.username + ":" + options.password)
+                },
+                success: function (data){
+                    //console.log(data);
+                    alert('Thanks for your comment!');
+                }
+            });
+        };
+
+        getToken({
+            url: "https://stream.watsonplatform.net/speech-to-text/api",
+            username: "fa35ebed-f5d2-486d-a1c7-c53bafbe9158",
+            password: "FeIzLaf0vrLD"
+        });*/
+
+        $.ajax({
+            xhrFields: {
+                withCredentials: true
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa('fa35ebed-f5d2-486d-a1c7-c53bafbe9158:FeIzLaf0vrLD'));
+            },
+            url: 'https://stream.watsonplatform.net/authorization/api/v1/token?url=' + 'https://stream.watsonplatform.net/speech-to-text/api'
         });
 
     });
-	</script>
+</script>
 </body>
 </html>
