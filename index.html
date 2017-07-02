@@ -8,6 +8,7 @@
 	<script src="node_modules/three/examples/js/loaders/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="node_modules/@tweenjs/tween.js/src/Tween.js"></script>
+	<script src="node_modules/watson-speech/dist/watson-speech.js"></script>
     <script src="js/Site.js"></script>
 	<style>
 		body 
@@ -39,6 +40,14 @@
             visualizer.camera.position.y = position.y;
         });
         tween.start();
+
+        WatsonSpeech.TextToSpeech.synthesize({
+            text : 'Hola desde IBM',
+            voice: 'es-ES_EnriqueVoice',
+            autoPlay : false,
+            token: 'YfbgB%2FJ7RScRYTKLIiIcXPec9842hkV84VqC3Ol7YlyNN9JJgmBi9nRSNfrIiLoYgIizS0w3YFo5a8p9OSshdqKfl%2BfCkMfTCu748Yfl%2B6ttujH8AlzNkgS5BiXJYpsGadjQZcrtdBcPtfAmxnkT7zUehEwGE%2FUtT%2BQXefI4MowV%2Fg21MYCgMlleVfFyeI0J3h52SJwyRw9PNd1lMYLJCFMd2hdFUmGdf3lgg0qANZ9c4vM7C1b2O3zWBcRfoBM%2F5gDuFd5GIdgqXOhed252P58iAtpAJiasFHfhusVt7qDAYsgfv9OW6JIcXwU6ZLC03AjRda28rrBho8MoeO%2BBsHD3BWHlOy%2FJWkBkYnNOhwoyH8%2FuPl8FVpf5m9bHXziCBmklcYGa6SAr8XL8%2FNpIp6E%2BOZGVW9EIGTK9mOd7bqTmI3Ob7TndCp%2Fy4JCcZrTCiBwQwFwtwnW%2B4eIi2CJGPsH1%2BZat7ewGl4qdDIOz%2Bspp1Yx2Y5M1hffJPtCAWGxJddb34ND1D6kUZbeuLHkLrp0TOKal7mIyV7huzVkFPCNnw3ZQXJTK9Hl2kTUCIMs94ShjvxVxXQ3e4XFRL63pGZjspamuG%2FX5CIDjpXKO6gOJSrnrzmBxv5c0eGA5YlSbouIYUkJOGAmejsfcL3Y40PZmbI9%2Bzu0z6JroVKmnhjafai5kvdh%2F3tqOBBO26g0JU4l3bwrGmV5YxYc%2B7uVKNt2jH4jiRo9XcaR6yLiDPIpZ6EpA%2BZniNqg9oaBQEQckQXNwMYVn8Oz8HYHUqo6wsERW3BGgB%2Brnhs8BsgIKYWAlF0lhEsvLtzLMogAQt9B6nRrOYYRfnXqXisukEoFmVeV4fNDoscfBHfvUx5JmeNVYS05eKAekY5NRgegY2%2Fu0Xefwy28WC7gvqf4vk59jROqP1l%2B1uNrYSkfRhsG06jyxAaeZWyaRNEfTd%2FHPD%2Bta'
+        });
+
     });
 	</script>
 </body>
