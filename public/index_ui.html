@@ -38,9 +38,7 @@
         }.bind(ecualizador));
 
         audioAnalizer.setupAudioProcessing();
-        audioAnalizer.getAudio();
-
-
+        //audioAnalizer.getAudio();
 
         function animate() {
             requestAnimationFrame(animate);
@@ -48,6 +46,26 @@
             TWEEN.update();
         }
         animate();
+
+        data = 'Thomas John Watson fue el presidente de IBM y quien supervisó el crecimiento de la empresa hasta convertirla en una multinacional (entre los años veinte y los años cincuenta). Desarrolló su efectivo estilo de dirección y la convirtió en una de las empresas más efectivas en ventas gracias a las tarjetas perforadas que fabricaba. Fue uno de los hombres más ricos de su tiempo.';
+
+        fetch('/api/text-to-speech/token')
+            .then(function (response) {
+                return response.text();
+            }).then(function (token) {
+
+                audio = WatsonSpeech.TextToSpeech.synthesize({
+                    text: data,
+                    voice: 'es-ES_EnriqueVoice',
+                    autoPlay: false,
+                    token: token
+                });
+
+                audioAnalizer.startAudio(audio);
+                audio.play();
+        });
+
+
 
         // Transitions
         var position = {x: 0, y: 0, z: 0};
@@ -59,7 +77,7 @@
         });
         tween.start();
 
-        fetch('api/speech-to-text/token')
+        /*fetch('api/speech-to-text/token')
             .then(function (response) {
                 return response.text();
             }).then(function (token) {
@@ -92,7 +110,7 @@
             stream.on('error', function (err) {
                 console.log(err);
             });
-        });
+        });*/
     });
 </script>
 </body>

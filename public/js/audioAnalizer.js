@@ -70,7 +70,8 @@ THREE.AudioAnalizer = function AudioAnalizer(callback) {
     };
 
 //start the audio processing
-    this.start = function (buffer) {
+    this.startBuffer = function (buffer) {
+        console.log(buffer);
         this.audioContext.decodeAudioData(buffer, decodeAudioDataSuccess, decodeAudioDataFailed);
         var that = this;
 
@@ -82,6 +83,13 @@ THREE.AudioAnalizer = function AudioAnalizer(callback) {
         function decodeAudioDataFailed() {
             debugger
         }
+    };
+
+    this.startAudio = function (audio) {
+        // Our <audio> element will be the audio source.
+        var source = this.audioContext.createMediaElementSource(audio);
+        source.connect(this.analyser);
+        source.connect(this.audioContext.destination);
     };
 }
 
