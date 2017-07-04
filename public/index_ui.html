@@ -9,8 +9,11 @@
     <script src="js/OrbitControls.js"></script>
     <script src="js/@tweenjs/tween.js/src/Tween.js"></script>
     <script src="js/watson-speech/dist/watson-speech.js"></script>
-    <script src="js/Site.js"></script>
     <script src="js/whatwg-fetch/fetch.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/ecualizador.js"></script>
+    <script src="js/audioAnalizer.js"></script>
     <style>
         body {
             margin: 0;
@@ -25,23 +28,25 @@
 </head>
 <body>
 <script type="text/javascript">
-    var visualizer;
 
     $(document).ready(function () {
-        visualizer = new AudioVisualizer();
-        visualizer.initialize();
-        visualizer.createBars();
-        visualizer.setupAudioProcessing();
-        visualizer.getAudio();
-        visualizer.handleDrop();
+        var site = new THREE.Site();
+        var ecualizador = new Ecualizador(site.scene);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            site.update();
+            TWEEN.update();
+        }
+        animate();
 
         // Transitions
         var position = {x: 0, y: 0, z: 0};
         var target = {x: 0, y: 100, z: 0};
         var tween = new TWEEN.Tween(position).to(target, 30000);
         tween.onUpdate(function () {
-            visualizer.camera.position.x = position.x;
-            visualizer.camera.position.y = position.y;
+            site.camera.position.x = position.x;
+            site.camera.position.y = position.y;
         });
         tween.start();
 
