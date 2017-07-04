@@ -33,6 +33,15 @@
         var site = new THREE.Site();
         var ecualizador = new Ecualizador(site.scene);
 
+        var audioAnalizer  = new THREE.AudioAnalizer(function (array) {
+            ecualizador.audioProcessing(array);
+        }.bind(ecualizador));
+
+        audioAnalizer.setupAudioProcessing();
+        audioAnalizer.getAudio();
+
+
+
         function animate() {
             requestAnimationFrame(animate);
             site.update();
