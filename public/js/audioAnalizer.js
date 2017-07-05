@@ -65,7 +65,7 @@ THREE.AudioAnalizer = function AudioAnalizer(callback) {
         request.send();
         var that = this;
         request.onload = function () {
-            that.start(request.response);
+            that.startAudio(request.response);
         }
     };
 
