@@ -10,6 +10,7 @@
     <script src="js/@tweenjs/tween.js/src/Tween.js"></script>
     <script src="js/watson-speech/dist/watson-speech.js"></script>
     <script src="js/whatwg-fetch/fetch.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/site.js"></script>
     <script src="js/ecualizador.js"></script>
@@ -47,7 +48,7 @@
         }
         animate();
 
-        //data = 'Thomas John Watson fue el presidente de IBM y quien supervisó el crecimiento de la empresa hasta convertirla en una multinacional (entre los años veinte y los años cincuenta). Desarrolló su efectivo estilo de dirección y la convirtió en una de las empresas más efectivas en ventas gracias a las tarjetas perforadas que fabricaba. Fue uno de los hombres más ricos de su tiempo.';
+        /*//data = 'Thomas John Watson fue el presidente de IBM y quien supervisó el crecimiento de la empresa hasta convertirla en una multinacional (entre los años veinte y los años cincuenta). Desarrolló su efectivo estilo de dirección y la convirtió en una de las empresas más efectivas en ventas gracias a las tarjetas perforadas que fabricaba. Fue uno de los hombres más ricos de su tiempo.';
         data = 'Hello, my name is Watson and I onli want to say the cognitive era is comming but is not here.';
         fetch('/api/text-to-speech/token')
             .then(function (response) {
@@ -66,11 +67,11 @@
 
                 audioAnalizer.startAudio(audio);
                 audio.play();
-        });
+        });*/
 
 
 
-        // Transitions
+        /*// Transitions
         var position = {x: 0, y: 0, z: 0};
         var target = {x: 0, y: 100, z: 0};
         var tween = new TWEEN.Tween(position).to(target, 30000);
@@ -78,9 +79,9 @@
             site.camera.position.x = position.x;
             site.camera.position.y = position.y;
         });
-        tween.start();
+        tween.start();*/
 
-        /*fetch('api/speech-to-text/token')
+        fetch('api/speech-to-text/token')
             .then(function (response) {
                 return response.text();
             }).then(function (token) {
@@ -93,27 +94,47 @@
 
             result = "";
             stream.on('data', function (data) {
-                stream.stop();
+                //stream.stop();
                 result = data;
                 console.log(data);
 
-                fetch('/api/text-to-speech/token')
-                    .then(function (response) {
-                        return response.text();
-                    }).then(function (token) {
-                    WatsonSpeech.TextToSpeech.synthesize({
-                        text: data,
-                        voice: 'es-ES_EnriqueVoice',
-                        autoPlay: true,
-                        token: token
+                // Retrieve the context from the previous server response
+                var context;
+                var latestResponse = Api.getResponsePayload();
+                if (latestResponse) {
+                    context = latestResponse.context;
+                }
+
+                // Send the user message
+                Api.sendRequest(data, context);
+
+                var payload = Api.getResponsePayload();
+                console.log( payload);
+
+
+
+
+                if(payload){
+                    fetch('/api/text-to-speech/token')
+                        .then(function (response) {
+                            return response.text();
+                        }).then(function (token) {
+                        WatsonSpeech.TextToSpeech.synthesize({
+                            text: payload.output.text,
+                            //voice: 'es-ES_EnriqueVoice',
+                            voice: 'es-LA_SofiaVoice',
+                            autoPlay: true,
+                            token: token
+                        });
                     });
-                });
+                }
+
             });
 
             stream.on('error', function (err) {
                 console.log(err);
             });
-        });*/
+        });
     });
 </script>
 </body>
