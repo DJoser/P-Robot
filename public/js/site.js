@@ -72,16 +72,16 @@
     var size = 100;
     var divisions = 100;
 
-    var gridHelper = new THREE.GridHelper(size, divisions);
-    this.scene.add(gridHelper);
+    //var gridHelper = new THREE.GridHelper(size, divisions);
+    //this.scene.add(gridHelper);
 
     //var helper = new THREE.CameraHelper( this.camera );
     //this.scene.add( helper );
 
     // instantiate a loader
-    var loader = new THREE.ColladaLoader();
+    //var loader = new THREE.ColladaLoader();
 
-    loader.load(
+    /*loader.load(
         // resource URL
         'assets/models/skeleton/skelet.dae',
         // Function when resource is loaded
@@ -92,7 +92,7 @@
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
         }
-    );
+    );*/
 
 
     this.update = function () {
